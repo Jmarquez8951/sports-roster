@@ -1,19 +1,52 @@
 import React from 'react';
-import './App.scss';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+import fbConnection from '../helpers/data/connection';
 
 import Auth from '../components/Auth/Auth';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import Team from '../components/Team/Team';
 
+import './App.scss';
+
+fbConnection();
 class App extends React.Component {
+  state = {
+    authed: false,
+  }
+
+  componentDidMount() {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ authed: true });
+      } else {
+        this.setState({ authed: false });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeListener();
+  }
+
   render() {
+    const { authed } = this.state;
+    const loadComponent = () => {
+      let componentToLoad = '';
+      if (authed) {
+        componentToLoad = <Team/>;
+      } else {
+        componentToLoad = <Auth/>;
+      }
+      return componentToLoad;
+    };
+
     return (
       <div className="App">
-        <MyNavbar/>
-        <h2>Testing</h2>
-        <Auth/>
-        <Team/>
-        <button className="btn btn-info"><i class="fas fa-rocket"></i></button>
+        <MyNavbar authed={authed}/>
+        <h1>Sports Roster</h1>
+        {loadComponent()}
       </div>
     );
   }
