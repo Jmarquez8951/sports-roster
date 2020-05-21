@@ -19,8 +19,8 @@ class MyNavbar extends React.Component {
     const { authed } = this.props;
     return (
       <div className="MyNavbar">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand" href="#">React Pinterest</a>
+        <nav className="navbar navbar-expand-lg navbar-light bg-secondary border-bottom border-dark">
+          <a className="navbar-brand" href="#"><img src="https://bnetcmsus-a.akamaihd.net/cms/page_media/60/609VVM89F1BY1542673347592.svg" alt="logo"/>Atlanta Reign</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
