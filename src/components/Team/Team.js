@@ -23,9 +23,9 @@ class Team extends React.Component {
     const makePlayers = players.map((player) => <Player key={player.id} player={player}/>);
 
     return (
-      <div className="Team">
-        <h1>Atlanta Reign's Current Roster</h1>
-        <div className="d-flex flex-wrap">
+      <div className="Team d-flex flex-wrap justify-content-center">
+        <h1 className="m-4 p-1 col-6 border-bottom border-dark">Atlanta Reign's Current Roster</h1>
+        <div className="d-flex flex-wrap justify-content-center">
           {makePlayers}
         </div>
       </div>

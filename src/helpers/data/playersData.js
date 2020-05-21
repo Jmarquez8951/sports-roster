@@ -13,6 +13,7 @@ const getPlayersByUid = (uid) => new Promise((resolve, reject) => {
           const newPlayer = allPlayersObject[playerId];
           newPlayer.id = playerId;
           players.push(newPlayer);
+          players.reverse();
         });
       }
       resolve(players);
