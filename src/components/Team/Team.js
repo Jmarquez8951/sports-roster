@@ -33,10 +33,12 @@ class Team extends React.Component {
     const makePlayers = players.map((player) => <Player key={player.id} player={player} removePlayer={this.removePlayer}/>);
 
     return (
-      <div className="Team d-flex flex-wrap justify-content-center">
-        <h1 className="m-4 p-1 col-6 border-bottom border-dark">Atlanta Reign's Current Roster</h1>
+      <div className="Team">
         <div className="d-flex flex-wrap justify-content-center">
-          {makePlayers}
+          <h1 className="m-4 p-1 col-sm col-md-9 col-lg-7 border-bottom border-dark">Atlanta Reign's Current Roster</h1>
+          <div className="d-flex flex-wrap justify-content-center">
+            {makePlayers}
+          </div>
         </div>
       </div>
     );
