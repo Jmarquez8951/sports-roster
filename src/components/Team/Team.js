@@ -30,6 +30,10 @@ class Team extends React.Component {
       .catch((err) => console.error('unable to delete player.', err));
   }
 
+  saveNewPlayer = (newPlayer) => {
+    console.log(newPlayer);
+  }
+
   render() {
     const { players, openForm } = this.state;
     const makePlayers = players.map((player) => <Player key={player.id} player={player} removePlayer={this.removePlayer}/>);
@@ -40,7 +44,7 @@ class Team extends React.Component {
           <h1 className="m-4 p-1 col-sm col-md-9 col-lg-7 border-bottom border-dark">Atlanta Reign's Current Roster</h1>
           <div className="col-12">
             <button className="btn btn-dark m-3" onClick={() => this.setState({ openForm: true })}><i className="fas fa-plus-circle"></i> Add To Roster</button>
-            {openForm ? <PlayerForm/> : ''}
+            {openForm ? <PlayerForm saveNewPlayer={this.saveNewPlayer}/> : ''}
           </div>
           <div className="d-flex flex-wrap justify-content-center">
             {makePlayers}
