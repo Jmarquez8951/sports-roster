@@ -31,7 +31,12 @@ class Team extends React.Component {
   }
 
   saveNewPlayer = (newPlayer) => {
-    console.log(newPlayer);
+    playersData.savePlayer(newPlayer)
+      .then(() => {
+        this.getInfo();
+        this.setState({ openForm: false });
+      })
+      .catch((err) => console.error('could not save new player', err));
   }
 
   render() {
