@@ -8,12 +8,27 @@ import './PlayerForm.scss';
 class PlayerForm extends React.Component {
   static propTypes = {
     saveNewPlayer: PropTypes.func.isRequired,
+    putPlayer: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
   }
 
   state = {
     playerName: '',
     playerImageUrl: '',
     playerPosition: '',
+    isEditing: false,
+  }
+
+  componentDidMount() {
+    const { player } = this.props;
+    if (player.name) {
+      this.setState({
+        playerName: player.name,
+        playerImageUrl: player.imageUrl,
+        playerPosition: player.position,
+        isEditing: true,
+      });
+    }
   }
 
   savePlayer = (e) => {
@@ -27,6 +42,19 @@ class PlayerForm extends React.Component {
       uid: authData.getUid(),
     };
     saveNewPlayer(newPlayer);
+  }
+
+  updatePlayer = (e) => {
+    e.preventDefault();
+    const { playerName, playerImageUrl, playerPosition } = this.state;
+    const { putPlayer, player } = this.props;
+    const updatedPlayer = {
+      name: playerName,
+      imageUrl: playerImageUrl,
+      position: playerPosition,
+      uid: authData.getUid(),
+    };
+    putPlayer(player.id, updatedPlayer);
   }
 
   nameChange = (e) => {
@@ -45,7 +73,12 @@ class PlayerForm extends React.Component {
   }
 
   render() {
-    const { playerImageUrl, playerName, playerPosition } = this.state;
+    const {
+      playerImageUrl,
+      playerName,
+      playerPosition,
+      isEditing,
+    } = this.state;
 
     return (
       <div className="PlayerForm m-3">
@@ -80,7 +113,11 @@ class PlayerForm extends React.Component {
               value={playerPosition}
               onChange={this.positionChange}/>
           </div>
-          <button className="btn btn-dark" onClick={this.savePlayer}><i className="fas fa-plus-circle"></i> Add Player</button>
+          {
+            isEditing
+              ? <button className="btn btn-dark" onClick={this.updatePlayer}><i className="fas fa-edit"></i> Update Player</button>
+              : <button className="btn btn-dark" onClick={this.savePlayer}><i className="fas fa-plus-circle"></i> Add Player</button>
+          }
         </form>
       </div>
     );
