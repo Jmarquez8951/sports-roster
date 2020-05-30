@@ -11,6 +11,7 @@ import './Team.scss';
 class Team extends React.Component {
   state = {
     players: [],
+    editPlayer: {},
     openForm: false,
   }
 
@@ -39,9 +40,22 @@ class Team extends React.Component {
       .catch((err) => console.error('could not save new player', err));
   }
 
+  putPlayer = (playerId, updatedPlayer) => {
+    playersData.updatePlayer(playerId, updatedPlayer)
+      .then(() => {
+        this.getInfo();
+        this.setState({ editPlayer: {}, openForm: false });
+      })
+      .catch((err) => console.error('could not update player:', err));
+  }
+
+  editAPlayer = (player) => {
+    this.setState({ editPlayer: player, openForm: true });
+  }
+
   render() {
-    const { players, openForm } = this.state;
-    const makePlayers = players.map((player) => <Player key={player.id} player={player} removePlayer={this.removePlayer}/>);
+    const { players, openForm, editPlayer } = this.state;
+    const makePlayers = players.map((player) => <Player key={player.id} player={player} removePlayer={this.removePlayer} editAPlayer={this.editAPlayer}/>);
 
     return (
       <div className="Team">
@@ -49,7 +63,7 @@ class Team extends React.Component {
           <h1 className="m-4 p-1 col-sm col-md-9 col-lg-7 border-bottom border-dark">Atlanta Reign's Current Roster</h1>
           <div className="col-12">
             <button className="btn btn-dark m-3" onClick={() => this.setState({ openForm: true })}><i className="fas fa-plus-circle"></i> Add To Roster</button>
-            {openForm ? <PlayerForm saveNewPlayer={this.saveNewPlayer}/> : ''}
+            {openForm ? <PlayerForm saveNewPlayer={this.saveNewPlayer} putPlayer={this.putPlayer} player={editPlayer}/> : ''}
           </div>
           <div className="d-flex flex-wrap justify-content-center">
             {makePlayers}
